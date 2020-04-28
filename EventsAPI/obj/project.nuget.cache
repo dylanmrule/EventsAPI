@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "RFURPvIjDT0pu7pEiC3VyC1GjRN6JV1uVA8waFZ623xkoegt9QWY26OssszNNbYrbW0Tv/cVHzCA1wamYK8syw==",
+  "dgSpecHash": "UfcN4tWFcGiWqMa5rMJ9WpyIRWgBBnv6lzqkWekKKFOlDfvwt86wYucFaBZy8c0u5z6ONQBWYc2Mm5qUvQD6gg==",
   "success": true,
   "projectFilePath": "C:\\Users\\austi\\source\\repos\\API Project\\EventsAPI\\EventsAPI\\EventsAPI.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\austi\\.nuget\\packages\\restsharp\\106.6.9\\restsharp.106.6.9.nupkg.sha512",
+    "C:\\Users\\austi\\.nuget\\packages\\ticketmaster.core\\2.0.2\\ticketmaster.core.2.0.2.nupkg.sha512",
+    "C:\\Users\\austi\\.nuget\\packages\\ticketmaster.discovery\\2.0.2\\ticketmaster.discovery.2.0.2.nupkg.sha512"
+  ],
   "logs": []
 }
