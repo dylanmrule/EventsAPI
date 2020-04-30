@@ -11,6 +11,9 @@ using Ticketmaster.Discovery.V2;
 using Ticketmaster.Core;
 using Ticketmaster.Discovery;
 using Ticketmaster.Discovery.V2.Models;
+using Ticketmaster.Core.V2.Models;
+using RestSharp;
+using Newtonsoft.Json;
 
 namespace EventsAPI.Controllers
 {
@@ -19,6 +22,7 @@ namespace EventsAPI.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly Config _config;
         private readonly DiscoveryApi _discovery;
+        private readonly EventsAPIDBContext _context = new EventsAPIDBContext();
         //nuget package documentation for DiscoveryAPI https://github.com/SerhiiVoznyi/Ticketmaster-SDK/tree/master/src/Ticketmaster.Discovery
 
         public HomeController(ILogger<HomeController> logger)
@@ -31,14 +35,15 @@ namespace EventsAPI.Controllers
 
         public IActionResult Index()
         {
-            var states = new States();
-            return View(states);
+            return View();
         }
-        public async Task<IActionResult> Events(string city, string stateCode)
+
+        public async Task<IActionResult> Events(string city, string statecode)
         {
             var request = new SearchEventsRequest();
             request.AddQueryParameter(SearchEventsQueryParameters.city, city);
-            request.AddQueryParameter(SearchEventsQueryParameters.stateCode, stateCode);
+            request.AddQueryParameter(SearchEventsQueryParameters.stateCode, statecode);
+
             var response = await _discovery.Events.SearchEventsAsync(request);
             EventsResponse result = new EventsResponse();
             result.Events = response._embedded.Events;
@@ -50,8 +55,25 @@ namespace EventsAPI.Controllers
             request.AddQueryParameter(SearchVenuesQueryParameters.stateCode, statecode);
             var response = await _discovery.Venues.SearchVenuesAsync(request);
             VenuesResponse result = new VenuesResponse();
+            
+            //This will break if the API response is null.
+            
             result.Venues = response._embedded.Venues;
             return View(result);
+        }
+        public async Task<IActionResult> AddToFavorites(string id)
+        {
+            var request = await _discovery.Events.GetEventDetailsAsync(new GetRequest(id));
+            Favorites newFavorite = new Favorites() { EventId = id, EventName = request.Name, 
+                StartDate = request.Dates.Start.DateTime, Venue = request._embedded.Venues[0].Name };
+            _context.Favorites.Add(newFavorite);
+            _context.SaveChanges();
+            return View(request);
+        }
+        public async Task<IActionResult> Favorites()
+        {
+            var model = _context.Favorites.ToList();
+            return View(model);
         }
 
         public IActionResult Privacy()
