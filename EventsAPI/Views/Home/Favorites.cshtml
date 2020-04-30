@@ -1,0 +1,17 @@
+﻿@model List<Favorites>
+
+@if (Model != null)
+{
+    <h1>Number of results: @Model.Count</h1>
+    @for (int i = 0; i < Model.Count; i++)
+    {
+        <h3>@Model[i].EventName</h3>
+        <p> @Model[i].StartDate.Value.Date</p>
+        <p> @Model[i].Venue</p>
+    }
+}
+else
+{
+    <p>Those parameters are not compatible with the API.</p>
+}
+<a asp-action="Index">Try again</a>
