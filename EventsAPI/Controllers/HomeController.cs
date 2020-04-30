@@ -34,10 +34,11 @@ namespace EventsAPI.Controllers
             var states = new States();
             return View(states);
         }
-        public async Task<IActionResult> Events(string city)
+        public async Task<IActionResult> Events(string city, string stateCode)
         {
             var request = new SearchEventsRequest();
             request.AddQueryParameter(SearchEventsQueryParameters.city, city);
+            request.AddQueryParameter(SearchEventsQueryParameters.stateCode, stateCode);
             var response = await _discovery.Events.SearchEventsAsync(request);
             EventsResponse result = new EventsResponse();
             result.Events = response._embedded.Events;

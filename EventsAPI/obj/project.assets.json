@@ -84,19 +84,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\austi\\.nuget\\packages\\": {}
+    "C:\\Users\\grand\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\austi\\source\\repos\\API Project\\EventsAPI\\EventsAPI\\EventsAPI.csproj",
+      "projectUniqueName": "C:\\Users\\grand\\source\\EventsAPI\\EventsAPI\\EventsAPI.csproj",
       "projectName": "EventsAPI",
-      "projectPath": "C:\\Users\\austi\\source\\repos\\API Project\\EventsAPI\\EventsAPI\\EventsAPI.csproj",
-      "packagesPath": "C:\\Users\\austi\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\austi\\source\\repos\\API Project\\EventsAPI\\EventsAPI\\obj\\",
+      "projectPath": "C:\\Users\\grand\\source\\EventsAPI\\EventsAPI\\EventsAPI.csproj",
+      "packagesPath": "C:\\Users\\grand\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\grand\\source\\EventsAPI\\EventsAPI\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
       "configFilePaths": [
-        "C:\\Users\\austi\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\grand\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -143,7 +147,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
       }
     }
   }
