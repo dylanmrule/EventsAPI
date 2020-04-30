@@ -1,0 +1,17 @@
+﻿@model EventsResponse
+
+@if (Model.Events != null)
+{
+    <h1>Number of results: @Model.Events.Count</h1>
+    @for (int i = 0; i < Model.Events.Count; i++)
+    {
+        <h3>@Model.Events[i].Name</h3>
+        <p> @Model.Events[i].Classifications[0].Segment.Name</p>
+        <p> @Model.Events[i]._embedded.Venues[0].Name</p>
+    }
+}
+else
+{
+    <p>Those parameters are not compatible with the API.</p>
+}
+<a asp-action="Index">Try again</a>
