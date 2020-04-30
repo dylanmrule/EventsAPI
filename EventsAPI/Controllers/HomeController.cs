@@ -11,6 +11,9 @@ using Ticketmaster.Discovery.V2;
 using Ticketmaster.Core;
 using Ticketmaster.Discovery;
 using Ticketmaster.Discovery.V2.Models;
+using Ticketmaster.Core.V2.Models;
+using RestSharp;
+using Newtonsoft.Json;
 
 namespace EventsAPI.Controllers
 {
@@ -56,7 +59,15 @@ namespace EventsAPI.Controllers
             result.Venues = response._embedded.Venues;
             return View(result);
         }
-
+        public async Task<IActionResult> AddToFavorites(string id)
+        {
+            var request = await _discovery.Events.GetEventDetailsAsync(new GetRequest(id));
+            Favorites newFavorite = new Favorites() { EventId = id, EventName = request.Name, 
+                StartDate = request.Dates.Start.DateTime, Venue = request._embedded.Venues[0].Name };
+            _context.Favorites.Add(newFavorite);
+            _context.SaveChanges();
+            return View(request);
+        }
         public async Task<IActionResult> Favorites()
         {
             var model = _context.Favorites.ToList();

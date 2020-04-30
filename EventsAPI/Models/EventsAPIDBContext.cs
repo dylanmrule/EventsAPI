@@ -35,6 +35,8 @@ namespace EventsAPI.Models
                 entity.Property(e => e.StartDate).HasColumnType("datetime");
 
                 entity.Property(e => e.Venue).HasMaxLength(1);
+
+                entity.Property(e => e.EventId);
             });
 
             OnModelCreatingPartial(modelBuilder);

@@ -26,8 +26,15 @@ using EventsAPI.Models;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 3 "C:\Users\austi\source\repos\API Project\EventsAPI\EventsAPI\Views\_ViewImports.cshtml"
+using Ticketmaster.Core.V2.Models;
+
+#line default
+#line hidden
+#nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"e5c9df5401896a11a0002b53bc78853424d56581", @"/Views/Home/Venues.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"72d58bf7beff1409b0abdf2384bf120f5b8a4f34", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"8bef374f19a04168820163bef27d2bb9a8e5ef4b", @"/Views/_ViewImports.cshtml")]
     public class Views_Home_Venues : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<VenuesResponse>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("asp-action", "Index", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -131,7 +138,7 @@ else
 #line default
 #line hidden
 #nullable disable
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "e5c9df5401896a11a0002b53bc78853424d565815540", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "e5c9df5401896a11a0002b53bc78853424d565815742", async() => {
                 WriteLiteral("Try again");
             }
             );
