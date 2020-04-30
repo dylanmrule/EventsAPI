@@ -7,11 +7,17 @@
     {
         <h3>@Model.Venues[i].Name</h3>
         <p> @Model.Venues[i].Type</p>
-        <p> @Model.Venues[i].City.Name</p>
+        <p>@Model.Venues[i].Address.Line1</p>
+        <p>@Model.Venues[i].Address.Line2</p>
+        <p>@Model.Venues[i].City.Name, @Model.Venues[i].State.StateCode, @Model.Venues[i].PostalCode</p>
+
+
     }
+
+}
 }
 else
 {
-    <p>Those parameters are not compatible with the API.</p>
+<p>Those parameters are not compatible with the API.</p>
 }
 <a asp-action="Index">Try again</a>
