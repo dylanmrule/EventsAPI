@@ -70,6 +70,13 @@ namespace EventsAPI.Controllers
             _context.SaveChanges();
             return View(request);
         }
+        public async Task<IActionResult> DeleteFromFavorites(string id)
+        {
+            Favorites selected = _context.Favorites.FirstOrDefault(e => e.EventId == id);
+            _context.Favorites.Remove(selected);
+            _context.SaveChanges();
+            return View();
+        }
         public async Task<IActionResult> Favorites()
         {
             var model = _context.Favorites.ToList();
