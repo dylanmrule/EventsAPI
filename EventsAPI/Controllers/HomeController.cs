@@ -38,8 +38,9 @@ namespace EventsAPI.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Events(string city, string statecode)
+        public async Task<IActionResult> Events(string city, string stateCode)
         {
+
             var client = new HttpClient();
             client.BaseAddress = new Uri("https://app.ticketmaster.com/discovery/v2/");
             client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (compatible; GrandCircus/1.0)");
@@ -63,6 +64,7 @@ namespace EventsAPI.Controllers
                 events.AddRange(response._embedded.Events);
                 
             }*/
+
         }
         public async Task<IActionResult> Venues(string statecode)
         {
