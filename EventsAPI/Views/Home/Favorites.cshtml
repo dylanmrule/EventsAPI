@@ -39,7 +39,7 @@
                         @Html.DisplayFor(modelItem => item.Venue)
                     </td>
                     <td>
-                        <a asp-action="Details" asp-route-id="@item.EventId">Details</a> |
+                        <a asp-action="EventDetails" asp-route-id="@item.EventId">Details</a> |
                         <a asp-action="DeleteFromFavorites" asp-route-id="@item.Id">Delete</a>
                     </td>
                 </tr>

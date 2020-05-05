@@ -50,8 +50,8 @@ namespace EventsAPI.Controllers
             return View(events);
 
             /*Previous method below using ticketmaster library.
-             * 
-             * var request = new SearchEventsRequest();
+            
+            var request = new SearchEventsRequest();
             EventsResponse result = new EventsResponse();
             List<Event> events = new List<Event>();
             request.AddQueryParameter(SearchEventsQueryParameters.city, city);
@@ -84,13 +84,13 @@ namespace EventsAPI.Controllers
         public async Task<IActionResult> AddToFavorites(string id)
         {
             var request = await _discovery.Events.GetEventDetailsAsync(new GetRequest(id));
-            Favorites newFavorite = new Favorites() { EventId = id, EventName = request.Name, 
+            Favorites newFavorite = new Favorites() { EventId = id, EventName = request.Name,
                 StartDate = request.Dates.Start.DateTime, Venue = request._embedded.Venues[0].Name };
             _context.Favorites.Add(newFavorite);
             _context.SaveChanges();
             return View(request);
         }
-        public async Task<IActionResult> DeleteFromFavorites(string id)
+        public IActionResult DeleteFromFavorites(string id)
         {
             Favorites selected = _context.Favorites.FirstOrDefault(e => e.EventId == id);
             _context.Favorites.Remove(selected);
