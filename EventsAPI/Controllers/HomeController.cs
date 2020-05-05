@@ -38,15 +38,26 @@ namespace EventsAPI.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Events(string city, string statecode)
+        public async Task<IActionResult> Events(string city, string stateCode)
         {
-            var request = new SearchEventsRequest();
-            request.AddQueryParameter(SearchEventsQueryParameters.city, city);
-            request.AddQueryParameter(SearchEventsQueryParameters.stateCode, statecode);
+            //var request = new SearchEventsRequest();
+            //string page = "0";
+            //request.AddQueryParameter(SearchEventsQueryParameters.city, city);
+            //request.AddQueryParameter(SearchEventsQueryParameters.stateCode, statecode);
+            //request.AddQueryParameter(SearchEventsQueryParameters.page, page);            
+            //var response = await _discovery.Events.SearchEventsAsync(request);
+            //EventsResponse result = new EventsResponse();
+            //result.Events = response._embedded.Events;
 
-            var response = await _discovery.Events.SearchEventsAsync(request);
-            EventsResponse result = new EventsResponse();
-            result.Events = response._embedded.Events;
+
+            var client = new HttpClient();
+            client.BaseAddress = new Uri("https://app.ticketmaster.com");
+            client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (compatible; GrandCircus/1.0)");
+            var modifiedEndPoint = "/discovery/v2/events.json?city=" + city + "&stateCode=" +stateCode + "&page=0&size=20";
+            var response = await client.GetAsync(modifiedEndPoint);
+            var result = await response.Content.ReadAsAsync<EventsResponse>();
+            
+
             return View(result);
         }
         public async Task<IActionResult> Venues(string statecode)
