@@ -7,7 +7,7 @@
     {
         <h3>@Model.Events[i].Name</h3>
 
-        <p><img src="@Url.Content(@Model.Events[i].Images[0].Url)"></p>
+        <p><img src="@Url.Content(@Model.Events[i].Images[0].Url)" width="350px"></p>
         if (Model.Events[i].PriceRanges.Count > 0)
         {
             <p>Ticket Prices: $@Model.Events[i].PriceRanges[0].Min - $@Model.Events[i].PriceRanges[0].Max</p>
