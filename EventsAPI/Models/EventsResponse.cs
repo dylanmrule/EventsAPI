@@ -9,5 +9,6 @@ namespace EventsAPI.Models
     public class EventsResponse
     {
         public List<Event> Events { get; set; }
+        public List<string> Favorites { get; set; }
     }
 }

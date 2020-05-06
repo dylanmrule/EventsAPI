@@ -5,5 +5,13 @@
   </PropertyGroup>
   <PropertyGroup>
     <ActiveDebugProfile>EventsAPI</ActiveDebugProfile>
+    <_SelectedScaffolderID>MvcViewScaffolder</_SelectedScaffolderID>
+    <_SelectedScaffolderCategoryPath>root/Common/MVC/View</_SelectedScaffolderCategoryPath>
+    <WebStackScaffolding_ViewDialogWidth>600</WebStackScaffolding_ViewDialogWidth>
+    <WebStackScaffolding_IsLayoutPageSelected>True</WebStackScaffolding_IsLayoutPageSelected>
+    <WebStackScaffolding_IsPartialViewSelected>False</WebStackScaffolding_IsPartialViewSelected>
+    <WebStackScaffolding_IsReferencingScriptLibrariesSelected>False</WebStackScaffolding_IsReferencingScriptLibrariesSelected>
+    <WebStackScaffolding_LayoutPageFile />
+    <WebStackScaffolding_DbContextTypeFullName>EventsAPI.Models.EventsAPIDBContext</WebStackScaffolding_DbContextTypeFullName>
   </PropertyGroup>
 </Project>

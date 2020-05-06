@@ -38,16 +38,36 @@ namespace EventsAPI.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Events(string city, string statecode)
+        public async Task<IActionResult> Events(string city, string stateCode)
         {
+
+            var client = new HttpClient();
+            client.BaseAddress = new Uri("https://app.ticketmaster.com/discovery/v2/");
+            client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (compatible; GrandCircus/1.0)");
+            var response = await client.GetStringAsync("events?apikey=2kVlEu5eTcizQZ73bkzcleUGRaFcJhxp" + "&locale=*&city=" + city +  "&statecode=" + stateCode);
+            var result = JsonConvert.DeserializeObject<SearchEventsResponse>(response);
+            EventsResponse events = new EventsResponse() { Events = result._embedded.Events, Favorites = new List<string>()};
+            foreach (var favorite in _context.Favorites)
+            {
+                events.Favorites.Add(favorite.EventId);
+            }
+            return View(events);
+
+            /*Previous method below using ticketmaster library.
+            
             var request = new SearchEventsRequest();
+            EventsResponse result = new EventsResponse();
+            List<Event> events = new List<Event>();
             request.AddQueryParameter(SearchEventsQueryParameters.city, city);
             request.AddQueryParameter(SearchEventsQueryParameters.stateCode, statecode);
+            for (int i = 0; i < 3; i++)
+            {
+                request.AddQueryParameter(SearchEventsQueryParameters.page, i.ToString());
+                var response = await _discovery.Events.SearchEventsAsync(request);
+                events.AddRange(response._embedded.Events);
+                
+            }*/
 
-            var response = await _discovery.Events.SearchEventsAsync(request);
-            EventsResponse result = new EventsResponse();
-            result.Events = response._embedded.Events;
-            return View(result);
         }
         public async Task<IActionResult> Venues(string statecode)
         {
@@ -61,14 +81,26 @@ namespace EventsAPI.Controllers
             result.Venues = response._embedded.Venues;
             return View(result);
         }
+        public async Task<IActionResult> EventDetails(string id)
+        {
+            var request = await _discovery.Events.GetEventDetailsAsync(new GetRequest(id));
+            return View(request);
+        }
         public async Task<IActionResult> AddToFavorites(string id)
         {
             var request = await _discovery.Events.GetEventDetailsAsync(new GetRequest(id));
-            Favorites newFavorite = new Favorites() { EventId = id, EventName = request.Name, 
+            Favorites newFavorite = new Favorites() { EventId = id, EventName = request.Name,
                 StartDate = request.Dates.Start.DateTime, Venue = request._embedded.Venues[0].Name };
             _context.Favorites.Add(newFavorite);
             _context.SaveChanges();
             return View(request);
+        }
+        public IActionResult DeleteFromFavorites(string id)
+        {
+            Favorites selected = _context.Favorites.FirstOrDefault(e => e.EventId == id);
+            _context.Favorites.Remove(selected);
+            _context.SaveChanges();
+            return View(selected);
         }
         public async Task<IActionResult> Favorites()
         {
