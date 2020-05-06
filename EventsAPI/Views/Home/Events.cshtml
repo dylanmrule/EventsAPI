@@ -16,9 +16,19 @@
             <p>Description: @Model.Events[i].Info</p>
         }
         <p>Type of Event: @Model.Events[i].Classifications[0].Segment.Name</p>
-        <a asp-action="AddToFavorites" class="btn-primary" asp-route-id="@Model.Events[i].Id">Add To Favorites</a>
+
+        if (Model.Favorites.Contains(Model.Events[i].Id))
+            {
+                <a asp-action="DeleteFromFavorites" class="btn btn-danger" 
+                   asp-route-id="@Model.Events[i].Id">Remove From Favorites</a>
+            }
+        else
+            {
+                <a asp-action="AddToFavorites" class="btn btn-primary" 
+                   asp-route-id="@Model.Events[i].Id">Add To Favorites</a>
+            }
+        }
     }
-}
 else
 {
     <p>Those parameters are not compatible with the API.</p>

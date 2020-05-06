@@ -46,8 +46,11 @@ namespace EventsAPI.Controllers
             client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (compatible; GrandCircus/1.0)");
             var response = await client.GetStringAsync("events?apikey=2kVlEu5eTcizQZ73bkzcleUGRaFcJhxp" + "&locale=*&city=" + city +  "&statecode=" + stateCode);
             var result = JsonConvert.DeserializeObject<SearchEventsResponse>(response);
-            EventsResponse events = new EventsResponse() { Events = result._embedded.Events };
-
+            EventsResponse events = new EventsResponse() { Events = result._embedded.Events, Favorites = new List<string>()};
+            foreach (var favorite in _context.Favorites)
+            {
+                events.Favorites.Add(favorite.EventId);
+            }
             return View(events);
 
             /*Previous method below using ticketmaster library.
@@ -97,7 +100,7 @@ namespace EventsAPI.Controllers
             Favorites selected = _context.Favorites.FirstOrDefault(e => e.EventId == id);
             _context.Favorites.Remove(selected);
             _context.SaveChanges();
-            return View();
+            return View(selected);
         }
         public async Task<IActionResult> Favorites()
         {
