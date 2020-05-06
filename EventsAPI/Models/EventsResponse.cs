@@ -10,5 +10,7 @@ namespace EventsAPI.Models
     {
         public List<Event> Events { get; set; }
         public List<string> Favorites { get; set; }
+        public string PageLink { get; set; }
+        public int Page { get; set; }
     }
 }
