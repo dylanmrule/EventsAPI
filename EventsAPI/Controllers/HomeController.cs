@@ -44,7 +44,7 @@ namespace EventsAPI.Controllers
             var client = new HttpClient();
             client.BaseAddress = new Uri("https://app.ticketmaster.com/discovery/v2/");
             client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (compatible; GrandCircus/1.0)");
-            var response = await client.GetStringAsync("events?apikey=2kVlEu5eTcizQZ73bkzcleUGRaFcJhxp" + "&locale=*&city=" + city +  "&statecode=" + statecode);
+            var response = await client.GetStringAsync("events?apikey=2kVlEu5eTcizQZ73bkzcleUGRaFcJhxp" + "&locale=*&city=" + city +  "&statecode=" + stateCode);
             var result = JsonConvert.DeserializeObject<SearchEventsResponse>(response);
             EventsResponse events = new EventsResponse() { Events = result._embedded.Events };
 

@@ -16,7 +16,7 @@
             <p>Description: @Model.Events[i].Info</p>
         }
         <p>Type of Event: @Model.Events[i].Classifications[0].Segment.Name</p>
-
+        <a asp-action="AddToFavorites" class="btn-primary" asp-route-id="@Model.Events[i].Id">Add To Favorites</a>
     }
 }
 else
