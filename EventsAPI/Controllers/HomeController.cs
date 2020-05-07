@@ -104,44 +104,43 @@ namespace EventsAPI.Controllers
 
             return View("~/Views/Home/Events.cshtml", events);
         }
-        public async Task<IActionResult> Venues(string statecode)
+        public async Task<IActionResult> Venues(string stateCode)
         {
-            //VenuesResponse venues = new VenuesResponse()
-            //{
-            //    Venues = new List<Venue>(),
-            //    Favorites = new List<string>()
-            //};
+            VenuesResponse venues = new VenuesResponse()
+            {
+                Venues = new List<Venue>(),
+                Favorites = new List<string>()
+            };
 
-            //foreach (var favorite in _context.Favorites)
-            //{
-            //    events.Favorites.Add(favorite.EventId);
-            //}
+            foreach (var favorite in _context.Favorites)
+            {
+                venues.Favorites.Add(favorite.EventId);
+            }
 
-            //events.PageLink = "events?apikey=2kVlEu5eTcizQZ73bkzcleUGRaFcJhxp"
-            //    + "&locale=*&city=" + city + "&statecode=" + stateCode;
-            //var client = new HttpClient();
-            //client.BaseAddress = new Uri("https://app.ticketmaster.com/discovery/v2/");
-            //client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (compatible; GrandCircus/1.0)");
+            venues.PageLink = "venues.json?countryCode=US&apikey=2kVlEu5eTcizQZ73bkzcleUGRaFcJhxp&stateCode=" + stateCode;
+            var client = new HttpClient();
+            client.BaseAddress = new Uri("https://app.ticketmaster.com/discovery/v2/");
+            client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (compatible; GrandCircus/1.0)");
 
-            //var response = await client.GetStringAsync(events.PageLink);
-            //var result = JsonConvert.DeserializeObject<SearchEventsResponse>(response);
-            //events.Events.AddRange(result._embedded.Events);
-            //events.Page = result.Page.Number;
+            var response = await client.GetStringAsync(venues.PageLink);
+            var result = JsonConvert.DeserializeObject<SearchVenuesResponse>(response);
+            venues.Venues.AddRange(result._embedded.Venues);
+            venues.Page = result.Page.Number;
 
-            //return View(events);
-
+            return View(venues);
 
 
 
-            var request = new SearchVenuesRequest();
-            request.AddQueryParameter(SearchVenuesQueryParameters.stateCode, statecode);
-            var response = await _discovery.Venues.SearchVenuesAsync(request);
-            VenuesResponse result = new VenuesResponse();
 
-            //This will break if the API response is null.
+            //var request = new SearchVenuesRequest();
+            //request.AddQueryParameter(SearchVenuesQueryParameters.stateCode, statecode);
+            //var response = await _discovery.Venues.SearchVenuesAsync(request);
+            //VenuesResponse result = new VenuesResponse();
 
-            result.Venues = response._embedded.Venues;
-            return View(result);
+            ////This will break if the API response is null.
+
+            //result.Venues = response._embedded.Venues;
+            //return View(result);
         }
 
         [ActionName("Venues2")]
