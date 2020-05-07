@@ -14,19 +14,25 @@ using Ticketmaster.Discovery.V2.Models;
 using Ticketmaster.Core.V2.Models;
 using RestSharp;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using EventsAPI.Areas.Identity.Data;
 
 namespace EventsAPI.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly UserManager<EventsAPIUser> _userManager;
         private readonly Config _config;
         private readonly DiscoveryApi _discovery;
         private readonly EventsAPIDBContext _context = new EventsAPIDBContext();
         //nuget package documentation for DiscoveryAPI https://github.com/SerhiiVoznyi/Ticketmaster-SDK/tree/master/src/Ticketmaster.Discovery
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, UserManager<EventsAPIUser> userMrg)
         {
+            _userManager = userMrg;
             _logger = logger;
             _config = new Config("2kVlEu5eTcizQZ73bkzcleUGRaFcJhxp");
             var factory = new ClientFactory();
@@ -87,7 +93,7 @@ namespace EventsAPI.Controllers
                 Favorites = new List<string>()
             };
 
-            foreach (var favorite in _context.Favorites)
+            foreach (var favorite in _context.Favorites.Where(e => e.UserName == _userManager.GetUserName(User)))
             {
                 events.Favorites.Add(favorite.EventId);
             }
@@ -178,21 +184,22 @@ namespace EventsAPI.Controllers
         {
             var request = await _discovery.Events.GetEventDetailsAsync(new GetRequest(id));
             Favorites newFavorite = new Favorites() { EventId = id, EventName = request.Name,
-                StartDate = request.Dates.Start.DateTime, Venue = request._embedded.Venues[0].Name };
+                StartDate = request.Dates.Start.DateTime, Venue = request._embedded.Venues[0].Name, 
+                UserName = _userManager.GetUserName(User)};
             _context.Favorites.Add(newFavorite);
             _context.SaveChanges();
             return View(request);
         }
         public IActionResult DeleteFromFavorites(string id)
         {
-            Favorites selected = _context.Favorites.FirstOrDefault(e => e.EventId == id);
+            Favorites selected = _context.Favorites.FirstOrDefault(e => e.EventId == id && e.UserName == _userManager.GetUserName(User));
             _context.Favorites.Remove(selected);
             _context.SaveChanges();
             return View(selected);
         }
         public async Task<IActionResult> Favorites()
         {
-            var model = _context.Favorites.ToList();
+            var model = _context.Favorites.Where(e => e.UserName == _userManager.GetUserName(User)).ToList();
             return View(model);
         }
 
