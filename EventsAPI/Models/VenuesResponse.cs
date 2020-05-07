@@ -9,5 +9,8 @@ namespace EventsAPI.Models
     public class VenuesResponse
     {
         public List<Venue> Venues { get; set; }
+        public List<string> Favorites { get; set; }
+        public string PageLink { get; set; }
+        public int Page { get; set; }
     }
 }

@@ -12,5 +12,6 @@ namespace EventsAPI.Models
         public string EventName { get; set; }
         public DateTime? StartDate { get; set; }
         public string Venue { get; set; }
+        public string VenueID { get; set; }
     }
 }
