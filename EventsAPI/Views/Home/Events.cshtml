@@ -25,7 +25,6 @@
         if (Model.Events[i].PriceRanges.Count > 0)
         {
             <p>Ticket Prices: $@Model.Events[i].PriceRanges[0].Min - $@Model.Events[i].PriceRanges[0].Max</p>
-
         }
         <p>@Model.Events[i].Dates.Status.Code</p>
         @if (Model.Events[i].Info != null)

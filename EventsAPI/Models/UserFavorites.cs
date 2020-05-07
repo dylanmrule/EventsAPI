@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace EventsAPI.Models
 {
-    public partial class Favorites
+    public class UserFavorites
     {
+        [Key]
         public int Id { get; set; }
         [Required]
-        public string EventId { get; set; }
-        public string EventName { get; set; }
-        public DateTime? StartDate { get; set; }
-        public string Venue { get; set; }
         public string UserName { get; set; }
+        [Required]
+        public string EventId { get; set; }
     }
 }

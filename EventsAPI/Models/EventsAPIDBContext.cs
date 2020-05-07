@@ -16,6 +16,7 @@ namespace EventsAPI.Models
         }
 
         public virtual DbSet<Favorites> Favorites { get; set; }
+        public virtual DbSet<UserFavorites> UserFavorites { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
