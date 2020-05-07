@@ -110,17 +110,70 @@ namespace EventsAPI.Controllers
 
             return View("~/Views/Home/Events.cshtml", events);
         }
-        public async Task<IActionResult> Venues(string statecode)
+        public async Task<IActionResult> Venues(string stateCode)
         {
-            var request = new SearchVenuesRequest();
-            request.AddQueryParameter(SearchVenuesQueryParameters.stateCode, statecode);
-            var response = await _discovery.Venues.SearchVenuesAsync(request);
-            VenuesResponse result = new VenuesResponse();
-            
-            //This will break if the API response is null.
-            
-            result.Venues = response._embedded.Venues;
-            return View(result);
+            VenuesResponse venues = new VenuesResponse()
+            {
+                Venues = new List<Venue>(),
+                Favorites = new List<string>()
+            };
+
+            foreach (var favorite in _context.Favorites)
+            {
+                venues.Favorites.Add(favorite.EventId);
+            }
+
+            venues.PageLink = "venues.json?countryCode=US&apikey=2kVlEu5eTcizQZ73bkzcleUGRaFcJhxp&stateCode=" + stateCode;
+            var client = new HttpClient();
+            client.BaseAddress = new Uri("https://app.ticketmaster.com/discovery/v2/");
+            client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (compatible; GrandCircus/1.0)");
+
+            var response = await client.GetStringAsync(venues.PageLink);
+            var result = JsonConvert.DeserializeObject<SearchVenuesResponse>(response);
+            venues.Venues.AddRange(result._embedded.Venues);
+            venues.Page = result.Page.Number;
+
+            return View(venues);
+
+
+
+
+            //var request = new SearchVenuesRequest();
+            //request.AddQueryParameter(SearchVenuesQueryParameters.stateCode, statecode);
+            //var response = await _discovery.Venues.SearchVenuesAsync(request);
+            //VenuesResponse result = new VenuesResponse();
+
+            ////This will break if the API response is null.
+
+            //result.Venues = response._embedded.Venues;
+            //return View(result);
+        }
+
+        [ActionName("Venues2")]
+        public async Task<IActionResult> Venues(string link, int page)
+        {
+            VenuesResponse venues = new VenuesResponse()
+            {
+                Venues = new List<Venue>(),
+                Favorites = new List<string>()
+            };
+
+            foreach (var favorite in _context.Favorites)
+            {
+                venues.Favorites.Add(favorite.VenueID);
+            }
+
+            var client = new HttpClient();
+            client.BaseAddress = new Uri("https://app.ticketmaster.com/discovery/v2/");
+            client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (compatible; GrandCircus/1.0)");
+            string newLink = string.Concat(link + "&page=" + page.ToString());
+            var response = await client.GetStringAsync(newLink);
+            var result = JsonConvert.DeserializeObject<SearchVenuesResponse>(response);
+            venues.Venues.AddRange(result._embedded.Venues);
+            venues.Page = result.Page.Number;
+            venues.PageLink = link;
+
+            return View("~/Views/Home/Venues.cshtml", venues);
         }
         public async Task<IActionResult> EventDetails(string id)
         {

@@ -4,14 +4,16 @@ using EventsAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EventsAPI.Migrations
 {
     [DbContext(typeof(EventsAPIDBContext))]
-    partial class EventsAPIDBContextModelSnapshot : ModelSnapshot
+    [Migration("20200506233316_AddedVenueID")]
+    partial class AddedVenueID
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,26 +49,6 @@ namespace EventsAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Favorites");
-                });
-
-            modelBuilder.Entity("EventsAPI.Models.UserFavorites", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("EventId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("UserFavorites");
                 });
 #pragma warning restore 612, 618
         }
