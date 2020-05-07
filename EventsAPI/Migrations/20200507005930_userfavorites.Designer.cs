@@ -4,14 +4,16 @@ using EventsAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EventsAPI.Migrations
 {
     [DbContext(typeof(EventsAPIDBContext))]
-    partial class EventsAPIDBContextModelSnapshot : ModelSnapshot
+    [Migration("20200507005930_userfavorites")]
+    partial class userfavorites
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
