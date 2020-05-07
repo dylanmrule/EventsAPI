@@ -5,9 +5,9 @@
     <h1>Number of results: @Model.Venues.Count</h1>
     @for (int i = 0; i < Model.Venues.Count; i++)
     {
-        if (Model.Venues[i].Images[0].Url != null)
+        if (Model.Venues[i].Images.Count > 0)
         {
-        <p><img src="@Url.Content(@Model.Venues[i].Images[0].Url)" width="350px"></p>
+        <p><img src="@Url.Content(@Model.Venues[i].Images[1].Url)" width="350px"></p>
         }
         <h3>@Model.Venues[i].Name</h3>
         <p> @Model.Venues[i].Type</p>

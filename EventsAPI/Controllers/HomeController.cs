@@ -106,6 +106,33 @@ namespace EventsAPI.Controllers
         }
         public async Task<IActionResult> Venues(string statecode)
         {
+            //VenuesResponse venues = new VenuesResponse()
+            //{
+            //    Venues = new List<Venue>(),
+            //    Favorites = new List<string>()
+            //};
+
+            //foreach (var favorite in _context.Favorites)
+            //{
+            //    events.Favorites.Add(favorite.EventId);
+            //}
+
+            //events.PageLink = "events?apikey=2kVlEu5eTcizQZ73bkzcleUGRaFcJhxp"
+            //    + "&locale=*&city=" + city + "&statecode=" + stateCode;
+            //var client = new HttpClient();
+            //client.BaseAddress = new Uri("https://app.ticketmaster.com/discovery/v2/");
+            //client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (compatible; GrandCircus/1.0)");
+
+            //var response = await client.GetStringAsync(events.PageLink);
+            //var result = JsonConvert.DeserializeObject<SearchEventsResponse>(response);
+            //events.Events.AddRange(result._embedded.Events);
+            //events.Page = result.Page.Number;
+
+            //return View(events);
+
+
+
+
             var request = new SearchVenuesRequest();
             request.AddQueryParameter(SearchVenuesQueryParameters.stateCode, statecode);
             var response = await _discovery.Venues.SearchVenuesAsync(request);
