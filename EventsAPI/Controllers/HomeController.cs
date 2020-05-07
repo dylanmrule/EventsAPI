@@ -59,31 +59,23 @@ namespace EventsAPI.Controllers
             var client = new HttpClient();
             client.BaseAddress = new Uri("https://app.ticketmaster.com/discovery/v2/");
             client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (compatible; GrandCircus/1.0)");
-
+            
             var response = await client.GetStringAsync(events.PageLink);
             var result = JsonConvert.DeserializeObject<SearchEventsResponse>(response);
-            events.Events.AddRange(result._embedded.Events);
-            events.Page = result.Page.Number;
-
-            return View(events);
-
-            /*Previous method below using ticketmaster library.
-            
-            var request = new SearchEventsRequest();
-            EventsResponse result = new EventsResponse();
-            List<Event> events = new List<Event>();
-            request.AddQueryParameter(SearchEventsQueryParameters.city, city);
-            request.AddQueryParameter(SearchEventsQueryParameters.stateCode, statecode);
-            for (int i = 0; i < 3; i++)
+            if (result._embedded != null)
             {
-                request.AddQueryParameter(SearchEventsQueryParameters.page, i.ToString());
-                var response = await _discovery.Events.SearchEventsAsync(request);
-                events.AddRange(response._embedded.Events);
-                
-            }*/
+                events.Events.AddRange(result._embedded.Events);
+                events.Page = result.Page.Number;
+
+                return View(events);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
 
         }
-        //MVC did not play nicely with overloading
+
         [ActionName("Events2")]
         public async Task<IActionResult> Events(string link, int page)
         {
@@ -130,10 +122,17 @@ namespace EventsAPI.Controllers
 
             var response = await client.GetStringAsync(venues.PageLink);
             var result = JsonConvert.DeserializeObject<SearchVenuesResponse>(response);
-            venues.Venues.AddRange(result._embedded.Venues);
-            venues.Page = result.Page.Number;
+            if (result._embedded != null)
+            {
+                venues.Venues.AddRange(result._embedded.Venues);
+                venues.Page = result.Page.Number;
 
-            return View(venues);
+                return View(venues);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
 
 
 
@@ -158,10 +157,10 @@ namespace EventsAPI.Controllers
                 Favorites = new List<string>()
             };
 
-            foreach (var favorite in _context.Favorites)
+            /*foreach (var favorite in _context.Favorites)
             {
                 venues.Favorites.Add(favorite.VenueID);
-            }
+            }*/
 
             var client = new HttpClient();
             client.BaseAddress = new Uri("https://app.ticketmaster.com/discovery/v2/");
