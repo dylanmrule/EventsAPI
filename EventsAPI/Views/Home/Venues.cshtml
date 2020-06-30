@@ -1,6 +1,6 @@
 ﻿@model VenuesResponse
 
-@if (Model.Venues != null)
+@*@if (Model.Venues != null)
 {
     <h3>Number of results displayed: @Model.Venues.Count</h3>
     <div>
@@ -29,17 +29,92 @@
         <p>@Model.Venues[i].City.Name, @Model.Venues[i].State.StateCode, @Model.Venues[i].PostalCode</p>
         <p><a href="@Model.Venues[i].Url">@Model.Venues[i].Url</a></p>
         <hr />
-        @*if (Model.Favorites.Contains(Model.Venues[i].Name))
-            {
-                <a asp-action="DeleteFromFavorites" class="btn btn-danger"
-                   asp-route-id="@Model.Venues[i].Name">Remove From Favorites</a>
-            }
-            else
-            {
-                <a asp-action="AddToFavorites" class="btn btn-primary"
-                   asp-route-id="@Model.Venues[i].Name">Add To Favorites</a>
-            }*@
-    }
+        
+    }*@
+
+    
+@*}
+
+else
+{
+    <p>Those parameters are not compatible with the API.</p>
+}
+<a asp-action="Index">Try again</a>*@
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                
+            </th>
+            <th>
+                Venues
+            </th>
+            <th>
+                Address
+            </th>
+            <th>
+                City
+            </th>
+            <th>
+                State
+            </th>
+            <th>
+                Zip Code
+            </th>
+            <th>
+                Website
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < Model.Venues.Count; i++)
+        {
+            <tr>
+                <td>       
+                    @if (Model.Venues[i].Images.Count > 0)
+                    {
+                    <img src="@Url.Content(Model.Venues[i].Images[0].Url)" width="350px">
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.Venues[i].Name)
+                </td>
+
+                
+                    <td>
+                        @Model.Venues[i].Address.Line1
+                        @if(Model.Venues[i].Address.Line2 != null)
+                        {
+                            @Model.Venues[i].Address.Line2
+                        }
+                    </td>
+
+                
+
+                <td>
+                    @Html.DisplayFor(modelItem => Model.Venues[i].City.Name)
+                </td>
+                
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.Venues[i].State.StateCode)
+                    </td>
+                
+                
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.Venues[i].PostalCode)
+                    </td>
+                
+                <td>
+                    <a href="@Model.Venues[i].Url">@Model.Venues[i].Url</a>
+                </td>
+               
+
+
+            </tr>
+        }
+        </table>
 
     <div>
         @if (Model.Page != 0)
@@ -55,10 +130,3 @@
         <a asp-action="Venues2" asp-route-link="@Model.PageLink" asp-route-page="@(Model.Page + 1)"
            class="btn btn-primary">Next Page</a>
     </div>
-}
-
-else
-{
-    <p>Those parameters are not compatible with the API.</p>
-}
-<a asp-action="Index">Try again</a>

@@ -190,7 +190,7 @@ namespace EventsAPI.Controllers
             _context.SaveChanges();
             return View(selected);
         }
-        public async Task<IActionResult> Favorites()
+        public IActionResult Favorites()
         {
             var model = _context.Favorites.ToList();
             return View(model);
